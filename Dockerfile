@@ -31,7 +31,7 @@ RUN chmod +x /usr/local/bin/kubebuilder
 RUN export PATH=$PATH:/usr/local/bin
 RUN curl -L -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 RUN ln -s /usr/local/bin/helm /usr/local/bin/helm3
-RUN rm -r /usr/lib/python*/ensurepip
+RUN rm -rf /usr/lib/python*/ensurepip
 RUN pip3 install --upgrade pip setuptools && \
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
     if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
