@@ -1,4 +1,4 @@
-ARG GOVERSION=1.15.5
+ARG GOVERSION=1.17
 FROM golang:$GOVERSION
 ARG VCS_REF
 ARG BUILD_DATE
@@ -26,8 +26,8 @@ RUN apt update && \
       gawk \
       python3 \
       python3-pip
-RUN curl -L https://go.kubebuilder.io/dl/2.3.1/${GOOS}/${GOARCH} | tar -xz -C /tmp/
-RUN mv /tmp/kubebuilder_2.3.1_${GOOS}_${GOARCH} /usr/local/kubebuilder
+RUN curl -L https://go.kubebuilder.io/dl/3.4.1/${GOOS}/${GOARCH} | tar -xz -C /tmp/
+RUN mv /tmp/kubebuilder_3.4.1_${GOOS}_${GOARCH} /usr/local/kubebuilder
 RUN export PATH=$PATH:/usr/local/kubebuilder/bin
 RUN curl -L -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 RUN ln -s /usr/local/bin/helm /usr/local/bin/helm3
