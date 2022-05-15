@@ -9,7 +9,8 @@ LABEL maintainer="${USER_NAME} <${USER_EMAIL}>" \
         org.label-schema.vcs-url="https://github.com/w6d-io/kubebuilder" \
         org.label-schema.build-date=$BUILD_DATE \
         org.label-schema.version=$VERSION
-ENV GO111MODULE="on" \
+ENV K8S_VERSION=1.21.2 \
+    GO111MODULE="on" \
     GOOS=linux \
     GOARCH=amd64
 RUN apt update && \
@@ -26,9 +27,11 @@ RUN apt update && \
       gawk \
       python3 \
       python3-pip
-RUN curl -s -o /usr/local/bin/kubebuilder -L https://github.com/kubernetes-sigs/kubebuilder/releases/download/v3.4.1/kubebuilder_${GOOS}_${GOARCH}
-RUN chmod +x /usr/local/bin/kubebuilder
-RUN export PATH=$PATH:/usr/local/bin
+RUN curl -sSLo envtest-bins.tar.gz "https://go.kubebuilder.io/test-tools/${K8S_VERSION}/$(go env GOOS)/$(go env GOARCH)" && \
+    mkdir /usr/local/kubebuilder && \
+    tar -C /usr/local/kubebuilder --strip-components=1 -zvxf envtest-bins.tar.gz
+
+RUN export PATH=$PATH:/usr/local/kubebuilder/bin
 RUN curl -L -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 RUN ln -s /usr/local/bin/helm /usr/local/bin/helm3
 RUN rm -rf /usr/lib/python*/ensurepip
