@@ -1,4 +1,4 @@
-ARG GOVERSION=1.17
+ARG GOVERSION=1.20
 FROM golang:$GOVERSION
 ARG VCS_REF
 ARG BUILD_DATE
@@ -9,7 +9,7 @@ LABEL maintainer="${USER_NAME} <${USER_EMAIL}>" \
         org.label-schema.vcs-url="https://github.com/w6d-io/kubebuilder" \
         org.label-schema.build-date=$BUILD_DATE \
         org.label-schema.version=$VERSION
-ENV K8S_VERSION=1.21.2 \
+ENV K8S_VERSION=1.27.1 \
     GO111MODULE="on" \
     GOOS=linux \
     GOARCH=amd64
