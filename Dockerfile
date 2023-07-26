@@ -33,13 +33,10 @@ RUN curl -sSLo envtest-bins.tar.gz "https://go.kubebuilder.io/test-tools/${K8S_V
 
 RUN export PATH=$PATH:/usr/local/kubebuilder/bin
 RUN curl -L -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+RUN wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
 RUN ln -s /usr/local/bin/helm /usr/local/bin/helm3
-RUN rm -rf /usr/lib/python*/ensurepip
-RUN pip3 install --upgrade pip setuptools && \
-    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
-    if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
-    rm -r /root/.cache && \
-    pip install yq --upgrade && \
-    chmod +x /usr/local/bin/kubectl && \
+RUN pip install --upgrade pip setuptools --break-system-packages
+RUN if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
+    chmod +x /usr/local/bin/kubectl /usr/local/bin/yq && \
     rm -rf /var/lib/apt/lists/*
 
